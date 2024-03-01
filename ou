@@ -1,0 +1,17 @@
+Collecting pyctcdecode
+  Downloading pyctcdecode-0.5.0-py2.py3-none-any.whl (39 kB)
+Requirement already satisfied: numpy<2.0.0,>=1.15.0 in c:\users\quang\appdata\local\programs\python\python310\lib\site-packages (from pyctcdecode) (1.23.1)
+Collecting pygtrie<3.0,>=2.1 (from pyctcdecode)
+  Downloading pygtrie-2.5.0-py3-none-any.whl (25 kB)
+Collecting hypothesis<7,>=6.14 (from pyctcdecode)
+  Downloading hypothesis-6.91.0-py3-none-any.whl.metadata (6.0 kB)
+Requirement already satisfied: attrs>=19.2.0 in c:\users\quang\appdata\local\programs\python\python310\lib\site-packages (from hypothesis<7,>=6.14->pyctcdecode) (23.1.0)
+Collecting sortedcontainers<3.0.0,>=2.1.0 (from hypothesis<7,>=6.14->pyctcdecode)
+  Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+Collecting exceptiongroup>=1.0.0 (from hypothesis<7,>=6.14->pyctcdecode)
+  Downloading exceptiongroup-1.2.0-py3-none-any.whl.metadata (6.6 kB)
+Downloading hypothesis-6.91.0-py3-none-any.whl (423 kB)
+   ---------------------------------------- 0.0/423.3 kB ? eta -:--:--    --------------------------------------- 10.2/423.3 kB ? eta -:--:--   --- ----------------------------------- 41.0/423.3 kB 667.8 kB/s eta 0:00:01   ------- ------------------------------- 81.9/423.3 kB 770.8 kB/s eta 0:00:01   -------- ------------------------------ 92.2/423.3 kB 585.1 kB/s eta 0:00:01   ----------- -------------------------- 122.9/423.3 kB 658.7 kB/s eta 0:00:01   ------------ ------------------------- 143.4/423.3 kB 655.8 kB/s eta 0:00:01   ----------------- -------------------- 194.6/423.3 kB 737.3 kB/s eta 0:00:01   ----------------- -------------------- 194.6/423.3 kB 737.3 kB/s eta 0:00:01   ----------------- -------------------- 194.6/423.3 kB 737.3 kB/s eta 0:00:01   ---------------------- --------------- 256.0/423.3 kB 605.3 kB/s eta 0:00:01   ---------------------- --------------- 256.0/423.3 kB 605.3 kB/s eta 0:00:01   ------------------------- ------------ 286.7/423.3 kB 553.0 kB/s eta 0:00:01   ------------------------- ------------ 286.7/423.3 kB 553.0 kB/s eta 0:00:01   --------------------------- ---------- 307.2/423.3 kB 528.4 kB/s eta 0:00:01   --------------------------- ---------- 307.2/423.3 kB 528.4 kB/s eta 0:00:01   ------------------------------ ------- 337.9/423.3 kB 488.3 kB/s eta 0:00:01   ------------------------------ ------- 337.9/423.3 kB 488.3 kB/s eta 0:00:01   -------------------------------- ----- 358.4/423.3 kB 455.1 kB/s eta 0:00:01   -------------------------------- ----- 358.4/423.3 kB 455.1 kB/s eta 0:00:01   --------------------------------- ---- 368.6/423.3 kB 432.9 kB/s eta 0:00:01   ---------------------------------- --- 389.1/423.3 kB 441.1 kB/s eta 0:00:01   ------------------------------------ - 409.6/423.3 kB 440.8 kB/s eta 0:00:01   -------------------------------------  419.8/423.3 kB 429.8 kB/s eta 0:00:01   -------------------------------------- 423.3/423.3 kB 413.1 kB/s eta 0:00:00
+Downloading exceptiongroup-1.2.0-py3-none-any.whl (16 kB)
+Installing collected packages: sortedcontainers, pygtrie, exceptiongroup, hypothesis, pyctcdecode
+Successfully installed exceptiongroup-1.2.0 hypothesis-6.91.0 pyctcdecode-0.5.0 pygtrie-2.5.0 sortedcontainers-2.4.0

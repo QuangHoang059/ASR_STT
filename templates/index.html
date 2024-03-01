@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,300,1,0" />
+    <link rel="icon" href="{{ url_for('static', filename='Iconka-Saint-Whiskers-Cat-cupid-love.ico') }}"
+        type="image/x-icon">
+    <link rel="stylesheet" href="static\index.css">
+</head>
+
+<body>
+    <div id="loading-overlay">
+        <!-- Nội dung hoặc biểu tượng đang chờ -->
+        <p>Loading...</p>
+    </div>
+
+    <div class="ASR">
+
+        <div class="box-option">
+            <select id="model">
+                <option value="checkpoint_Teacher">Teacher</option>
+                <option value="checkpoint_Student_gen_1">Student gen-1</option>
+                <option value="checkpoint_Student_gen_2">Student gen-2</option>
+                <option value="checkpoint_Student_gen_3">Student gen-3</option>
+                <option value="checkpoint_Student_gen_4">Student gen-4</option>
+            </select>
+            <button class="recorder" id="recorder">Ghi âm</button>
+            <input type="file" id="fileInput" accept="audio/*" capture>
+        </div>
+        <div id="box-predict">
+            <audio id="audiorecord" controls src=""></audio>
+            <p class="predict" id="predict"></p>
+        </div>
+
+    </div>
+    <script src="static/recorder.js"></script>
+    <script>
+        var recorder = $('.recorder')[0]
+        var predict = $('#predict')[0]
+        var fileInput = document.getElementById('fileInput');
+        var audioRecorder = document.getElementById('audiorecord')
+        var boxpredict = document.getElementById('box-predict')
+        var model = document.getElementById('model')
+        var loading = document.getElementById('loading-overlay')
+
+        let gumStream;
+        let rec;
+        let input;
+        let audioContext
+        recorder.addEventListener('click', function (e) {
+            e.preventDefault()
+            recorder.innerHTML = "Đang ghi âm"
+            if (recorder.classList.contains('recording') == false) {
+                boxpredict.classList.remove('recording')
+                navigator.mediaDevices.getUserMedia({ audio: true, video: false }, { mimeType: 'audio/webm' })
+                    .then(stream => {
+                        audioContext = new AudioContext()
+                        console.log("Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz");
+                        gumStream = stream;
+                        input = audioContext.createMediaStreamSource(stream);
+                        rec = new Recorder(input, { numChannels: 1 })
+                        rec.record()
+                        console.log("Recording started");
+
+                    })
+                    .catch(error => {
+                        console.error('Error accessing microphone:', error);
+                    });
+            } else {
+                boxpredict.classList.add('recording')
+                recorder.innerHTML = "Ghi âm"
+                console.log("stopButton clicked");
+                rec.stop()
+                gumStream.getAudioTracks()[0].stop();
+                rec.exportWAV(createDownloadLink);
+                function createDownloadLink(blob) {
+                    url = URL.createObjectURL(blob);
+                    dataform = new FormData()
+                    dataform.append('audio', blob, 'recording.wav');
+                    audioRecorder.controls = true;
+                    audioRecorder.src = url;
+                    fetch('/recorder', {
+                        method: 'POST',
+                        body: dataform
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            predict.innerHTML = data
+
+
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+                }
+            }
+
+            recorder.classList.toggle('recording')
+        })
+
+        fileInput.addEventListener('click', () => {
+            fileInput.value = '';
+            boxpredict.classList.remove('recording')
+        })
+        fileInput.addEventListener('change', (e) => {
+            var dataform = new FormData();
+            var file = fileInput.files[0];
+            if (file) {
+                url = URL.createObjectURL(file);
+                audioRecorder.src = url;
+                dataform.append('file', file, 'recording.wav');
+                fetch('/file', {
+                    method: 'POST',
+                    body: dataform
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        predict.innerHTML = data
+                        boxpredict.classList.add('recording')
+
+                    })
+                    .catch(error => {
+                        alert('Error:', error);
+                    });
+            }
+
+            else alert("Vui lòng chọn file Audio!")
+
+        })
+        preValue = model.value
+        model.addEventListener('input', e => {
+            name_model = e.target.value;
+            loading.style.display = 'flex'
+            fetch('/model', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'data': name_model }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data['message'])
+                    loading.style.display = 'none'
+                    if (data['status'] == '0')
+                        model.value = preValue
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+
+                });
+        })
+
+
+
+    </script>
+</body>
+
+</html>
